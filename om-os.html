@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Om os – RoseNShine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .toast { position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:#2a1a1a;color:white;padding:.85rem 1.75rem;border-radius:50px;font-size:.9rem;opacity:0;transition:all .3s;z-index:999; }
+    .toast.show { opacity:1;transform:translateX(-50%) translateY(0); }
+    .about-content { max-width: 1000px; margin: 0 auto; padding: 3rem 2rem; }
+    .about-block { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; margin-bottom: 5rem; }
+    .about-block.reverse { }
+    .about-block img { border-radius: 16px; width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+    .about-text h2 { margin-bottom: 1rem; }
+    .about-text p { margin-bottom: 1rem; }
+    @media(max-width:768px){ .about-block { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">RoseN<span>Shine</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Forside</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="gaveideer.html">Gaveidéer</a></li>
+    <li><a href="om-os.html">Om os</a></li>
+    <li><a href="kontakt.html">Kontakt</a></li>
+  </ul>
+  <div class="nav-icons">
+    <button onclick="location.href='kurv.html'" title="Kurv">🛒<span class="cart-count">0</span></button>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="about-hero">
+  <span class="section-tag">Vores historie</span>
+  <h1>Skabt af <em style="color:var(--rose-dark);font-style:italic">kærlighed</em></h1>
+  <p>Vi tror på, at de smukkeste gaver er dem der holder for evigt</p>
+</div>
+
+<div class="about-content">
+
+  <div class="about-block">
+    <img src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=700&q=80" alt="Vores blomster">
+    <div class="about-text">
+      <h2>Historien bag RoseNShine</h2>
+      <p>RoseNShine blev grundlagt med én simpel idé: at skabe blomster der aldrig visner – ligesom den kærlighed de symboliserer.</p>
+      <p>Vi startede som et lille dansk brand med en passion for romantik og håndværk. I dag sender vi evige blomster til par over hele Danmark, der ønsker at give en gave med mening.</p>
+      <p>Hvert produkt er nøje udvalgt for at sikre den højeste kvalitet og den smukkeste æstetik.</p>
+    </div>
+  </div>
+
+  <div class="about-block" style="direction:rtl">
+    <img src="css/blomst10.jpg" alt="Vores roser" style="direction:ltr">
+    <div class="about-text" style="direction:ltr">
+      <h2>Symbolikken i evige blomster</h2>
+      <p>En blomst der aldrig visner er mere end bare en gave – det er et løfte. Et symbol på en kærlighed der ikke afhænger af tid eller omstændigheder.</p>
+      <p>Vores kunstige blomster er skabt med samme omsorg og detaljerigdom som ægte blomster, men med den fordel at de holder for evigt.</p>
+      <p>Giv din partner noget der minder dem om din kærlighed – hver eneste dag.</p>
+    </div>
+  </div>
+
+</div>
+
+<section style="background:white">
+  <div class="section-header">
+    <span class="section-tag">Vores værdier</span>
+    <h2>Det vi tror på</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="values-grid">
+    <div class="value-card">
+      <div class="icon">🌹</div>
+      <h3>Kvalitet</h3>
+      <p>Kun de smukkeste og mest realistiske kunstige blomster</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">💌</div>
+      <h3>Personlighed</h3>
+      <p>Hver gave kan tilpasses med en personlig besked</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">🌿</div>
+      <h3>Bæredygtighed</h3>
+      <p>Blomster der holder for evigt er bedre for miljøet</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">❤️</div>
+      <h3>Kærlighed</h3>
+      <p>Alt vi gør er drevet af passion for romantik og gaver</p>
+    </div>
+  </div>
+</section>
+
+<div class="romantic-banner">
+  <h2>Klar til at finde den perfekte gave?</h2>
+  <p>Udforsk vores kollektion af evige blomster og find noget særligt til din elskede.</p>
+  <a href="shop.html" class="btn btn-outline">Gå til shop</a>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="footer-logo">RoseN<span>Shine</span></div>
+      <p>Blomster der aldrig visner – skabt til at symbolisere en kærlighed der holder for evigt.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="gaveideer.html">Gaveidéer</a></li>
+        <li><a href="om-os.html">Om os</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 RoseNShine. Alle rettigheder forbeholdes.</p></div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

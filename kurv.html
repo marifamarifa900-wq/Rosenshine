@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kurv – RoseNShine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .toast { position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:#2a1a1a;color:white;padding:.85rem 1.75rem;border-radius:50px;font-size:.9rem;opacity:0;transition:all .3s;z-index:999; }
+    .toast.show { opacity:1;transform:translateX(-50%) translateY(0); }
+    .checkout-steps { display:flex;gap:0.5rem;align-items:center;justify-content:center;margin-bottom:3rem;flex-wrap:wrap; }
+    .step { display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;color:var(--tekst-lys); }
+    .step.active { color:var(--rose-dark); }
+    .step-num { width:28px;height:28px;border-radius:50%;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:0.8rem; }
+    .step.active .step-num { background:var(--rose-dark);color:white;border-color:var(--rose-dark); }
+    .step-sep { color:#ddd;font-size:1.2rem; }
+    .remove-btn { background:none;border:none;cursor:pointer;color:#bbb;font-size:1.1rem;transition:color 0.2s; }
+    .remove-btn:hover { color:var(--rose-dark); }
+    .coupon-row { display:flex;gap:0;margin-top:1rem;border-radius:8px;overflow:hidden;border:1.5px solid #e8d5d5; }
+    .coupon-row input { flex:1;padding:0.75rem 1rem;border:none;font-family:inherit;font-size:0.9rem;background:var(--creme);outline:none; }
+    .coupon-row button { padding:0.75rem 1.25rem;background:var(--rose-dark);color:white;border:none;cursor:pointer;font-family:inherit;font-size:0.85rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">RoseN<span>Shine</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Forside</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="gaveideer.html">Gaveidéer</a></li>
+    <li><a href="om-os.html">Om os</a></li>
+    <li><a href="kontakt.html">Kontakt</a></li>
+  </ul>
+  <div class="nav-icons">
+    <button onclick="location.href='kurv.html'" title="Kurv">🛒<span class="cart-count">0</span></button>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="cart-section">
+  <div>
+    <div class="checkout-steps">
+      <div class="step active"><span class="step-num">1</span> Kurv</div>
+      <span class="step-sep">›</span>
+      <div class="step"><span class="step-num">2</span> Levering</div>
+      <span class="step-sep">›</span>
+      <div class="step"><span class="step-num">3</span> Betaling</div>
+    </div>
+
+    <div class="cart-items" id="cart-items">
+      <!-- Renderes af JS -->
+    </div>
+
+    <div style="margin-top:1.5rem;display:flex;justify-content:space-between;align-items:center">
+      <a href="shop.html" class="btn btn-outline" style="font-size:0.85rem;padding:0.75rem 1.5rem">← Fortsæt shopping</a>
+    </div>
+  </div>
+
+  <div class="order-summary">
+    <h3>Ordreoversigt</h3>
+    <div class="summary-row"><span>Subtotal</span><span id="subtotal">0 kr.</span></div>
+    <div class="summary-row"><span>Levering</span><span id="shipping">0 kr.</span></div>
+    <div class="summary-row total"><span>Total</span><span id="total">0 kr.</span></div>
+
+    <div class="personal-msg">
+      <label for="personal-note">💌 Personlig besked til gaven (valgfri)</label>
+      <textarea id="personal-note" placeholder="Skriv en kærlig besked til modtageren..."></textarea>
+    </div>
+
+    <div class="coupon-row" style="margin-top:1rem">
+      <input type="text" placeholder="Rabatkode">
+      <button onclick="showToast('Rabatkode ikke fundet 🌸')">Anvend</button>
+    </div>
+
+    <button class="btn btn-primary" style="width:100%;margin-top:1.5rem;font-size:1rem" onclick="checkout()">
+      Gå til betaling 🌹
+    </button>
+
+    <div style="text-align:center;margin-top:1rem;font-size:0.8rem;color:var(--tekst-lys)">
+      🔒 Sikker betaling · Visa · Mastercard · MobilePay
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="footer-logo">RoseN<span>Shine</span></div>
+      <p>Blomster der aldrig visner – skabt til at symbolisere en kærlighed der holder for evigt.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="gaveideer.html">Gaveidéer</a></li>
+        <li><a href="om-os.html">Om os</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 RoseNShine. Alle rettigheder forbeholdes.</p></div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+function checkout() {
+  if (cart.length === 0) {
+    showToast('Din kurv er tom 🌸');
+    return;
+  }
+  showToast('Tak for din ordre! Vi sender den snarest 🌹');
+  cart = [];
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartCount();
+  setTimeout(() => renderCart(), 500);
+}
+</script>
+</body>
+</html>

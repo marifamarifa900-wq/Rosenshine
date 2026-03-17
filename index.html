@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoseNShine – Kærlighed der varer for evigt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: #2a1a1a; color: white; padding: 0.85rem 1.75rem;
+      border-radius: 50px; font-size: 0.9rem; opacity: 0; transition: all 0.3s; z-index: 999;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="index.html" class="nav-logo">RoseN<span>Shine</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Forside</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="gaveideer.html">Gaveidéer</a></li>
+    <li><a href="om-os.html">Om os</a></li>
+    <li><a href="kontakt.html">Kontakt</a></li>
+  </ul>
+  <div class="nav-icons">
+    <button onclick="location.href='kurv.html'" title="Kurv">🛒<span class="cart-count">0</span></button>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-tag">✦ Håndplukkede evige roser ✦</span>
+    <h1>Blomster der aldrig visner –<br><em>kærlighed der varer for evigt</em></h1>
+    <p>Giv din elskede en gave der holder for evigt. Vores kunstige roser er skabt til at symbolisere en kærlighed uden udløbsdato.</p>
+    <a href="shop.html" class="btn btn-primary">Find den perfekte gave</a>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- FEATURES -->
+<div class="features">
+  <div class="feature-item"><div class="icon">🌹</div><p>Visner aldrig</p></div>
+  <div class="feature-item"><div class="icon">🎁</div><p>Smukt indpakket</p></div>
+  <div class="feature-item"><div class="icon">💌</div><p>Personlig besked</p></div>
+  <div class="feature-item"><div class="icon">🚚</div><p>Levering i hele Danmark</p></div>
+  <div class="feature-item"><div class="icon">⭐</div><p>Tusindvis af glade kunder</p></div>
+</div>
+
+<!-- FREMHÆVEDE PRODUKTER -->
+<section style="background: white;">
+  <div class="section-header">
+    <span class="section-tag">Bestsellers</span>
+    <h2>Vores mest elskede roser</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="products-grid">
+
+    <div class="product-card" data-cat="roser">
+      <div class="product-img">
+        <a href="produkt-detalje.html?from=index.html&id=rose-red&img=css/blomst1.jpg&navn=Evige røde roser&pris=449"><img src="css/blomst1.jpg" alt="Evige røde roser"></a>
+        <span class="product-badge">Bestseller</span>
+      </div>
+      <div class="product-info">
+        <h3>Evige røde roser</h3>
+        <p class="desc" style="font-size:0.75rem;margin-bottom:0.25rem">Antal roser:</p>
+        <div class="antal-vælger">
+          <button class="antal-chip" data-pris="49" data-antal="1" onclick="vælgAntal(this)">1</button>
+          <button class="antal-chip" data-pris="122" data-antal="3" onclick="vælgAntal(this)">3</button>
+          <button class="antal-chip" data-pris="186" data-antal="5" onclick="vælgAntal(this)">5</button>
+          <button class="antal-chip active" data-pris="318" data-antal="10" onclick="vælgAntal(this)">10</button>
+          <button class="antal-chip" data-pris="539" data-antal="20" onclick="vælgAntal(this)">20</button>
+          <button class="antal-chip" data-pris="1176" data-antal="50" onclick="vælgAntal(this)">50</button>
+          <button class="antal-chip" data-pris="2156" data-antal="100" onclick="vælgAntal(this)">100</button>
+        </div>
+        <div class="product-footer">
+          <span class="live-pris" id="pris-rose-red"><span class="old">414 kr.</span>318 kr.</span>
+          <button class="btn-cart" onclick="tilfoejMedAntal(this, 'rose-red', 'Evige røde roser', 'css/blomst1.jpg')">+ Kurv</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="buketter">
+      <div class="product-img">
+        <a href="produkt-detalje.html?from=index.html&id=pastel-buket&img=css/blomst2.jpg&navn=Romantisk pastelbuket&pris=349"><img src="css/blomst2.jpg" alt="Romantisk pastelbuket"></a>
+        <span class="product-badge">Ny</span>
+      </div>
+      <div class="product-info">
+        <h3>Romantisk pastelbuket</h3>
+        <p class="desc" style="font-size:0.75rem;margin-bottom:0.25rem">Antal roser:</p>
+        <div class="antal-vælger">
+          <button class="antal-chip" data-pris="39" data-antal="1" onclick="vælgAntal(this)">1</button>
+          <button class="antal-chip" data-pris="98" data-antal="3" onclick="vælgAntal(this)">3</button>
+          <button class="antal-chip" data-pris="148" data-antal="5" onclick="vælgAntal(this)">5</button>
+          <button class="antal-chip active" data-pris="254" data-antal="10" onclick="vælgAntal(this)">10</button>
+          <button class="antal-chip" data-pris="429" data-antal="20" onclick="vælgAntal(this)">20</button>
+          <button class="antal-chip" data-pris="936" data-antal="50" onclick="vælgAntal(this)">50</button>
+          <button class="antal-chip" data-pris="1716" data-antal="100" onclick="vælgAntal(this)">100</button>
+        </div>
+        <div class="product-footer">
+          <span class="live-pris" id="pris-pastel-buket">254 kr.</span>
+          <button class="btn-cart" onclick="tilfoejMedAntal(this, 'pastel-buket', 'Romantisk pastelbuket', 'css/blomst2.jpg')">+ Kurv</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="roser">
+      <div class="product-img">
+        <a href="produkt-detalje.html?from=index.html&id=rose-white&img=css/blomst3.jpg&navn=Hvide evige roser&pris=399"><img src="css/blomst3.jpg" alt="Hvide evige roser"></a>
+      </div>
+      <div class="product-info">
+        <h3>Hvide evige roser</h3>
+        <p class="desc" style="font-size:0.75rem;margin-bottom:0.25rem">Antal roser:</p>
+        <div class="antal-vælger">
+          <button class="antal-chip" data-pris="44" data-antal="1" onclick="vælgAntal(this)">1</button>
+          <button class="antal-chip" data-pris="110" data-antal="3" onclick="vælgAntal(this)">3</button>
+          <button class="antal-chip" data-pris="167" data-antal="5" onclick="vælgAntal(this)">5</button>
+          <button class="antal-chip active" data-pris="286" data-antal="10" onclick="vælgAntal(this)">10</button>
+          <button class="antal-chip" data-pris="484" data-antal="20" onclick="vælgAntal(this)">20</button>
+          <button class="antal-chip" data-pris="1056" data-antal="50" onclick="vælgAntal(this)">50</button>
+          <button class="antal-chip" data-pris="1936" data-antal="100" onclick="vælgAntal(this)">100</button>
+        </div>
+        <div class="product-footer">
+          <span class="live-pris" id="pris-rose-white">286 kr.</span>
+          <button class="btn-cart" onclick="tilfoejMedAntal(this, 'rose-white', 'Hvide evige roser', 'css/blomst3.jpg')">+ Kurv</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="gaver">
+      <div class="product-img">
+        <a href="produkt-detalje.html?from=index.html&id=gavesaet&img=css/blomst4.jpg&navn=Romantisk gavesæt&pris=649"><img src="css/blomst4.jpg" alt="Romantisk gavesæt"></a>
+        <span class="product-badge">Populær</span>
+      </div>
+      <div class="product-info">
+        <h3>Romantisk gavesæt</h3>
+        <p class="desc" style="font-size:0.75rem;margin-bottom:0.25rem">Antal roser:</p>
+        <div class="antal-vælger">
+          <button class="antal-chip" data-pris="69" data-antal="1" onclick="vælgAntal(this)">1</button>
+          <button class="antal-chip" data-pris="172" data-antal="3" onclick="vælgAntal(this)">3</button>
+          <button class="antal-chip" data-pris="262" data-antal="5" onclick="vælgAntal(this)">5</button>
+          <button class="antal-chip active" data-pris="448" data-antal="10" onclick="vælgAntal(this)">10</button>
+          <button class="antal-chip" data-pris="759" data-antal="20" onclick="vælgAntal(this)">20</button>
+          <button class="antal-chip" data-pris="1656" data-antal="50" onclick="vælgAntal(this)">50</button>
+          <button class="antal-chip" data-pris="3036" data-antal="100" onclick="vælgAntal(this)">100</button>
+        </div>
+        <div class="product-footer">
+          <span class="live-pris" id="pris-gavesaet">448 kr.</span>
+          <button class="btn-cart" onclick="tilfoejMedAntal(this, 'gavesaet', 'Romantisk gavesæt', 'css/blomst4.jpg')">+ Kurv</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center;margin-top:3rem">
+    <a href="shop.html" class="btn btn-outline">Se alle produkter</a>
+  </div>
+</section>
+
+<!-- KATEGORIER -->
+<section>
+  <div class="section-header">
+    <span class="section-tag">Kategorier</span>
+    <h2>Find det perfekte til anledningen</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="categories-grid">
+    <a href="shop.html?cat=roser" class="category-card">
+      <img src="css/blomst1.jpg" alt="Evige roser">
+      <div class="category-overlay"><span>Evige roser</span></div>
+    </a>
+    <a href="shop.html?cat=buketter" class="category-card">
+      <img src="css/blomst2.jpg" alt="Romantiske buketter">
+      <div class="category-overlay"><span>Romantiske buketter</span></div>
+    </a>
+    <a href="shop.html?cat=gaver" class="category-card">
+      <img src="css/blomst4.jpg" alt="Gaver til kæreste">
+      <div class="category-overlay"><span>Gaver til kæreste</span></div>
+    </a>
+    <a href="shop.html?cat=jubilæum" class="category-card">
+      <img src="css/blomst3.jpg" alt="Jubilæumsgaver">
+      <div class="category-overlay"><span>Jubilæumsgaver</span></div>
+    </a>
+  </div>
+</section>
+
+<!-- DESIGN DIN BUKET BANNER -->
+<section style="background:linear-gradient(135deg,#fdf0f3,#fff5f0);text-align:center;padding:4rem 2rem">
+  <span class="section-tag">Ny funktion</span>
+  <h2>Design din egen buket</h2>
+  <p style="max-width:500px;margin:1rem auto 2rem">Vælg antal roser, farve og indpakning – og se prisen opdatere sig live. Din buket, dit valg.</p>
+  <a href="produkt.html" class="btn btn-primary">Start her 🌹</a>
+</section>
+
+<!-- ROMANTISK BANNER -->
+<div class="romantic-banner">
+  <h2>Giv en gave der holder for evigt</h2>
+  <p>Vores roser visner aldrig – ligesom den kærlighed de symboliserer. Perfekt til fødselsdage, årsdag og Valentinsdag.</p>
+  <a href="gaveideer.html" class="btn btn-outline">Se gaveidéer</a>
+</div>
+
+<!-- ANMELDELSER -->
+<section style="background: white;">
+  <div class="section-header">
+    <span class="section-tag">Kundeanmeldelser</span>
+    <h2>Hvad vores kunder siger</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>"Min kæreste blev helt rørt. Blomsterne er utrolig smukke og ser næsten ægte ud. Vil helt sikkert bestille igen!"</p>
+      <span class="reviewer">— Sofie M., København</span>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>"Bestilte til vores 5-års jubilæum. Pakken var smukt indpakket og den personlige besked var et perfekt touch."</p>
+      <span class="reviewer">— Mikkel T., Aarhus</span>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>"Endelig roser der ikke visner! Stod på bordet i 3 år nu og ser stadig fantastiske ud. Bedste gave nogensinde."</p>
+      <span class="reviewer">— Emma L., Odense</span>
+    </div>
+  </div>
+</section>
+
+<!-- NYHEDSBREV -->
+<div class="newsletter">
+  <span class="section-tag">Nyhedsbrev</span>
+  <h2>Få romantiske gaveidéer direkte i indbakken</h2>
+  <p>Tilmeld dig og modtag eksklusive tilbud, sæsonens nyheder og inspiration til den næste særlige lejlighed.</p>
+  <form class="newsletter-form">
+    <input type="email" placeholder="Din e-mailadresse" required>
+    <button type="submit">Tilmeld</button>
+  </form>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="footer-logo">RoseN<span>Shine</span></div>
+      <p>Blomster der aldrig visner – skabt til at symbolisere en kærlighed der holder for evigt.</p>
+      <div class="social-links">
+        <a href="#" aria-label="Instagram">📷</a>
+        <a href="#" aria-label="Facebook">📘</a>
+        <a href="#" aria-label="Pinterest">📌</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="shop.html">Alle produkter</a></li>
+        <li><a href="shop.html?cat=roser">Evige roser</a></li>
+        <li><a href="shop.html?cat=buketter">Romantiske buketter</a></li>
+        <li><a href="shop.html?cat=gaver">Gaver til kæreste</a></li>
+        <li><a href="shop.html?cat=jubilæum">Jubilæumsgaver</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Information</h4>
+      <ul>
+        <li><a href="om-os.html">Om os</a></li>
+        <li><a href="gaveideer.html">Gaveidéer</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+        <li><a href="#">Levering & retur</a></li>
+        <li><a href="#">Privatlivspolitik</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kontakt</h4>
+      <ul>
+        <li><a href="mailto:hej@evigeblomstre.dk">hej@evigeblomstre.dk</a></li>
+        <li><a href="tel:+4512345678">+45 12 34 56 78</a></li>
+        <li><a href="#">Man–Fre: 9–17</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 RoseNShine. Alle rettigheder forbeholdes. Lavet med 🌹 i Danmark.</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

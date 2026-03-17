@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produkt – RoseNShine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .toast { position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:#2a1a1a;color:white;padding:.85rem 1.75rem;border-radius:50px;font-size:.9rem;opacity:0;transition:all .3s;z-index:999; }
+    .toast.show { opacity:1;transform:translateX(-50%) translateY(0); }
+
+    .pd-wrapper {
+      max-width: 1100px; margin: 0 auto;
+      padding: 100px 2rem 5rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: start;
+    }
+
+    /* ===== BILLEDE GALLERI ===== */
+    .gallery { display: flex; flex-direction: column; gap: 1rem; }
+
+    .main-img-wrap {
+      position: relative; border-radius: 16px; overflow: hidden;
+      aspect-ratio: 4/5; background: #f5eded;
+    }
+    .main-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: opacity 0.3s;
+    }
+    .badge-nyhed {
+      position: absolute; top: 1rem; right: 1rem;
+      background: #2a1a1a; color: white;
+      font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.4rem 0.9rem; border-radius: 4px;
+    }
+    .gallery-label {
+      position: absolute; bottom: 1rem; left: 1rem;
+      background: rgba(255,255,255,0.9); color: var(--tekst);
+      font-size: 0.75rem; padding: 0.3rem 0.8rem; border-radius: 4px;
+    }
+
+    /* Pile */
+    .gallery-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: white; border: none; border-radius: 50%;
+      width: 38px; height: 38px; cursor: pointer;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+      font-size: 1rem; display: flex; align-items: center; justify-content: center;
+      transition: box-shadow 0.2s; z-index: 2;
+    }
+    .gallery-arrow:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+    .gallery-arrow.prev { left: 0.75rem; }
+    .gallery-arrow.next { right: 0.75rem; }
+
+    /* Thumbnails */
+    .thumbnails {
+      display: flex; gap: 0.6rem; overflow-x: auto;
+      padding-bottom: 0.25rem;
+    }
+    .thumbnails::-webkit-scrollbar { height: 4px; }
+    .thumbnails::-webkit-scrollbar-thumb { background: var(--rose); border-radius: 2px; }
+    .thumb {
+      width: 72px; height: 72px; flex-shrink: 0;
+      border-radius: 8px; overflow: hidden; cursor: pointer;
+      border: 2px solid transparent; transition: border-color 0.2s;
+    }
+    .thumb.active { border-color: var(--rose-dark); }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ===== HØJRE SIDE ===== */
+    .pd-info { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .pd-info h1 { font-size: 1.8rem; margin-bottom: 0; }
+    .pd-subtitle { color: var(--tekst-lys); font-size: 0.95rem; margin-top: -1rem; }
+
+    /* Størrelse */
+    .størrelse-grid { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .størrelse-btn {
+      padding: 0.55rem 1.2rem; border-radius: 6px;
+      border: 1.5px solid #ddd; background: white;
+      font-family: inherit; font-size: 0.88rem; cursor: pointer;
+      transition: all 0.2s; color: var(--tekst);
+    }
+    .størrelse-btn:hover { border-color: var(--rose-dark); }
+    .størrelse-btn.active { border-color: var(--tekst); background: white; font-weight: 600; }
+
+    /* Pris */
+    .pris-blok { display: flex; align-items: baseline; gap: 0.75rem; }
+    .pris-stor { font-size: 2rem; color: var(--tekst); }
+    .pris-anyday { font-size: 0.82rem; color: var(--tekst-lys); }
+    .pris-anyday strong { color: var(--tekst); }
+
+    /* Antal */
+    .antal-kontrol { display: flex; align-items: center; gap: 0; border: 1.5px solid #ddd; border-radius: 6px; width: fit-content; }
+    .antal-kontrol button {
+      width: 40px; height: 40px; background: none; border: none;
+      font-size: 1.2rem; cursor: pointer; color: var(--tekst);
+      transition: background 0.2s; border-radius: 4px;
+    }
+    .antal-kontrol button:hover { background: var(--creme); }
+    .antal-kontrol span {
+      width: 44px; text-align: center; font-size: 1rem;
+      border-left: 1.5px solid #ddd; border-right: 1.5px solid #ddd;
+      line-height: 40px;
+    }
+
+    /* Tilføj til kurv */
+    .tilfoej-btn {
+      width: 100%; padding: 1.1rem;
+      background: var(--guld); color: white;
+      border: none; border-radius: 6px;
+      font-family: inherit; font-size: 0.9rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .tilfoej-btn:hover { background: #b8924a; }
+
+    /* Tilvalg */
+    .tilvalg-liste { display: flex; flex-direction: column; gap: 0.6rem; }
+    .tilvalg-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.85rem 1rem; border: 1.5px solid #eee; border-radius: 8px;
+      cursor: pointer; transition: border-color 0.2s;
+    }
+    .tilvalg-item:hover { border-color: var(--rose); }
+    .tilvalg-item.valgt { border-color: var(--rose-dark); background: #fff5f7; }
+    .tilvalg-venstre { display: flex; align-items: center; gap: 0.75rem; }
+    .tilvalg-check {
+      width: 20px; height: 20px; border: 1.5px solid #ccc; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; transition: all 0.2s; flex-shrink: 0;
+    }
+    .tilvalg-item.valgt .tilvalg-check { background: var(--rose-dark); border-color: var(--rose-dark); color: white; }
+    .tilvalg-pris { font-size: 0.88rem; color: var(--tekst-lys); white-space: nowrap; }
+
+    /* USP liste */
+    .usp-liste { display: flex; flex-direction: column; gap: 0.5rem; border-top: 1px solid #eee; padding-top: 1.25rem; }
+    .usp-item { display: flex; align-items: center; gap: 0.75rem; font-size: 0.85rem; color: var(--tekst-lys); }
+    .usp-item .usp-icon { font-size: 1rem; }
+
+    /* Sektion label */
+    .sektion-label {
+      font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--tekst); margin-bottom: 0.5rem; display: block;
+    }
+
+    @media(max-width: 768px) {
+      .pd-wrapper { grid-template-columns: 1fr; padding-top: 90px; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">RoseN<span>Shine</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Forside</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="gaveideer.html">Gaveidéer</a></li>
+    <li><a href="om-os.html">Om os</a></li>
+    <li><a href="kontakt.html">Kontakt</a></li>
+  </ul>
+  <div class="nav-icons">
+    <button onclick="location.href='kurv.html'" title="Kurv">🛒<span class="cart-count">0</span></button>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="pd-wrapper">
+
+  <!-- GALLERI -->
+  <div class="gallery">
+    <div class="main-img-wrap">
+      <img id="main-img" src="css/blomst1.jpg" alt="Produkt billede">
+      <span class="badge-nyhed">Nyhed</span>
+      <span class="gallery-label" id="gallery-label">Naturligvis</span>
+      <button class="gallery-arrow prev" onclick="skiftBillede(-1)">‹</button>
+      <button class="gallery-arrow next" onclick="skiftBillede(1)">›</button>
+    </div>
+    <div class="thumbnails" id="thumbnails">
+      <div class="thumb active" onclick="vælgBillede(0)"><img src="css/blomst1.jpg" alt=""></div>
+      <div class="thumb" onclick="vælgBillede(1)"><img src="css/blomst2.jpg" alt=""></div>
+      <div class="thumb" onclick="vælgBillede(2)"><img src="css/blomst3.jpg" alt=""></div>
+      <div class="thumb" onclick="vælgBillede(3)"><img src="css/blomst4.jpg" alt=""></div>
+      <div class="thumb" onclick="vælgBillede(4)"><img src="css/blomst5.jpg" alt=""></div>
+      <div class="thumb" onclick="vælgBillede(5)"><img src="css/blomst6.jpg" alt=""></div>
+      <div class="thumb" onclick="vælgBillede(6)"><img src="css/blomst7.jpg" alt=""></div>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="pd-info">
+    <div>
+      <p style="font-size:0.8rem;color:var(--tekst-lys);margin-bottom:0.4rem"><a href="shop.html" style="color:var(--rose-dark)">Shop</a> / Evige roser</p>
+      <h1 id="pd-navn">Evige røde roser</h1>
+      <p class="pd-subtitle">Håndplukkede evige roser – visner aldrig</p>
+    </div>
+
+    <!-- STØRRELSE -->
+    <div>
+      <span class="sektion-label">Vælg størrelse</span>
+      <div class="størrelse-grid">
+        <button class="størrelse-btn active" data-mult="1" data-label="Naturligvis" onclick="vælgStørrelse(this)">Naturligvis</button>
+        <button class="størrelse-btn" data-mult="1.75" data-label="Luksuriøs" onclick="vælgStørrelse(this)">Luksuriøs + 75 %</button>
+        <button class="størrelse-btn" data-mult="2.5" data-label="Pompøs" onclick="vælgStørrelse(this)">Pompøs + 150 %</button>
+      </div>
+    </div>
+
+    <!-- PRIS -->
+    <div class="pris-blok">
+      <span class="pris-stor" id="pd-pris">449,00 kr.</span>
+    </div>
+    <p class="pris-anyday">Op til 4 betalinger med <strong>Anyday</strong> – fra <span id="anyday-pris">112,25 kr.</span>/md.</p>
+
+    <!-- ANTAL -->
+    <div>
+      <span class="sektion-label">Antal</span>
+      <div class="antal-kontrol">
+        <button onclick="ændreAntal(-1)">−</button>
+        <span id="antal-vis">1</span>
+        <button onclick="ændreAntal(1)">+</button>
+      </div>
+    </div>
+
+    <!-- TILFØJ TIL KURV -->
+    <button class="tilfoej-btn" onclick="tilfoejTilKurv()">Tilføj til kurv</button>
+
+    <!-- TILVALG -->
+    <div>
+      <span class="sektion-label">Tilvalg</span>
+      <div class="tilvalg-liste">
+        <div class="tilvalg-item" onclick="toggleTilvalg(this)">
+          <div class="tilvalg-venstre">
+            <div class="tilvalg-check"></div>
+            <span>Personlig hilsen på kort</span>
+          </div>
+          <span class="tilvalg-pris">15,00 kr.</span>
+        </div>
+        <div class="tilvalg-item" onclick="toggleTilvalg(this)">
+          <div class="tilvalg-venstre">
+            <div class="tilvalg-check"></div>
+            <span>Videohilsen</span>
+          </div>
+          <span class="tilvalg-pris">15,00 kr.</span>
+        </div>
+        <div class="tilvalg-item" onclick="toggleTilvalg(this)">
+          <div class="tilvalg-venstre">
+            <div class="tilvalg-check"></div>
+            <span>Satin indpakning</span>
+          </div>
+          <span class="tilvalg-pris">49,00 kr.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- USP -->
+    <div class="usp-liste">
+      <div class="usp-item"><span class="usp-icon">🚚</span> Gratis levering indenfor 1–3 dage</div>
+      <div class="usp-item"><span class="usp-icon">🌹</span> Holder for evigt – uden vand</div>
+      <div class="usp-item"><span class="usp-icon">🎁</span> Smukt indpakket og klar til gave</div>
+      <div class="usp-item"><span class="usp-icon">↩️</span> Gratis retur inden 30 dage</div>
+    </div>
+  </div>
+</div>
+
+<!-- RELATEREDE PRODUKTER -->
+<section style="background:white">
+  <div class="section-header">
+    <span class="section-tag">Måske kan du også lide</span>
+    <h2>Relaterede produkter</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="products-grid" style="max-width:1100px;margin:0 auto">
+    <div class="product-card" data-cat="roser">
+      <div class="product-img"><img src="css/blomst2.jpg" alt="Pastelbuket"></div>
+      <div class="product-info">
+        <h3>Romantisk pastelbuket</h3>
+        <p class="desc">Blød buket i creme og lyserøde toner</p>
+        <div class="product-footer">
+          <span class="live-pris">349 kr.</span>
+          <a href="produkt-detalje.html?id=pastel-buket" class="btn-cart">Se produkt</a>
+        </div>
+      </div>
+    </div>
+    <div class="product-card" data-cat="roser">
+      <div class="product-img"><img src="css/blomst18.jpg" alt="Rose Heart Box"></div>
+      <div class="product-info">
+        <h3>Rose Heart Box</h3>
+        <p class="desc">Roser arrangeret i et hjerte</p>
+        <div class="product-footer">
+          <span class="live-pris">599 kr.</span>
+          <a href="produkt-detalje.html?id=heart-box" class="btn-cart">Se produkt</a>
+        </div>
+      </div>
+    </div>
+    <div class="product-card" data-cat="gaver">
+      <div class="product-img"><img src="css/blomst4.jpg" alt="Gavesæt"></div>
+      <div class="product-info">
+        <h3>Romantisk gavesæt</h3>
+        <p class="desc">Roser + duftlys + personlig besked</p>
+        <div class="product-footer">
+          <span class="live-pris">649 kr.</span>
+          <a href="produkt-detalje.html?id=gavesaet" class="btn-cart">Se produkt</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="footer-logo">RoseN<span>Shine</span></div>
+      <p>Blomster der aldrig visner – skabt til at symbolisere en kærlighed der holder for evigt.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="gaveideer.html">Gaveidéer</a></li>
+        <li><a href="om-os.html">Om os</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 RoseNShine. Alle rettigheder forbeholdes.</p></div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  // Læs URL-parametre
+  const params = new URLSearchParams(window.location.search);
+  const produktImg = params.get('img') || 'css/blomst1.jpg';
+  const produktNavn = params.get('navn') || 'Evige røde roser';
+  const produktPris = parseInt(params.get('pris')) || 449;
+
+  // Sæt navn og billede
+  document.getElementById('pd-navn').textContent = produktNavn;
+  document.getElementById('main-img').src = produktImg;
+  document.querySelector('.thumb:first-child img').src = produktImg;
+
+  const billeder = [
+    { src: produktImg, label: 'Naturligvis' },
+    { src: 'css/blomst2.jpg', label: 'Pastel' },
+    { src: 'css/blomst3.jpg', label: 'Hvid' },
+    { src: 'css/blomst4.jpg', label: 'Romantisk' },
+    { src: 'css/blomst5.jpg', label: 'Jubilæum' },
+    { src: 'css/blomst6.jpg', label: 'Lyserød' },
+    { src: 'css/blomst7.jpg', label: 'Deluxe' },
+  ];
+  let aktivtBillede = 0;
+  let basispris = produktPris;
+  let størrelsesMult = 1;
+  let antal = 1;
+
+  // Opdater startpris
+  opdaterPris();
+
+  function vælgBillede(i) {
+    aktivtBillede = i;
+    document.getElementById('main-img').style.opacity = '0';
+    setTimeout(() => {
+      document.getElementById('main-img').src = billeder[i].src;
+      document.getElementById('main-img').style.opacity = '1';
+      document.getElementById('gallery-label').textContent = billeder[i].label;
+    }, 150);
+    document.querySelectorAll('.thumb').forEach((t, idx) => t.classList.toggle('active', idx === i));
+  }
+
+  function skiftBillede(retning) {
+    aktivtBillede = (aktivtBillede + retning + billeder.length) % billeder.length;
+    vælgBillede(aktivtBillede);
+  }
+
+  function vælgStørrelse(btn) {
+    document.querySelectorAll('.størrelse-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    størrelsesMult = parseFloat(btn.dataset.mult);
+    opdaterPris();
+  }
+
+  function ændreAntal(delta) {
+    antal = Math.max(1, antal + delta);
+    document.getElementById('antal-vis').textContent = antal;
+    opdaterPris();
+  }
+
+  function opdaterPris() {
+    const pris = Math.round(basispris * størrelsesMult * antal);
+    document.getElementById('pd-pris').textContent = pris.toLocaleString('da-DK') + ',00 kr.';
+    document.getElementById('anyday-pris').textContent = (pris / 4).toFixed(2).replace('.', ',') + ' kr.';
+  }
+
+  function toggleTilvalg(el) {
+    el.classList.toggle('valgt');
+    const check = el.querySelector('.tilvalg-check');
+    check.textContent = el.classList.contains('valgt') ? '✓' : '';
+  }
+
+  function tilfoejTilKurv() {
+    const navn = document.getElementById('pd-navn').textContent;
+    const pris = Math.round(basispris * størrelsesMult);
+    const img = billeder[aktivtBillede].src;
+    for (let i = 0; i < antal; i++) {
+      addToCart('pd-' + Date.now(), navn, pris, img);
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design din buket – RoseNShine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .toast { position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:#2a1a1a;color:white;padding:.85rem 1.75rem;border-radius:50px;font-size:.9rem;opacity:0;transition:all .3s;z-index:999; }
+    .toast.show { opacity:1;transform:translateX(-50%) translateY(0); }
+
+    /* ===== PRODUKT LAYOUT ===== */
+    .produkt-wrapper {
+      max-width: 1100px; margin: 0 auto;
+      padding: 100px 2rem 4rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
+    }
+
+    /* ===== PREVIEW ===== */
+    .preview-box {
+      position: sticky; top: 90px;
+      background: white; border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(180,100,110,0.12);
+      overflow: hidden;
+    }
+    .preview-img-wrap {
+      position: relative; aspect-ratio: 3/4; overflow: hidden;
+      background: #fdf0f3;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .preview-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: opacity 0.4s;
+    }
+    /* Farve overlay på billedet */
+    .color-overlay {
+      position: absolute; inset: 0;
+      mix-blend-mode: multiply;
+      opacity: 0.35;
+      transition: background 0.4s;
+      pointer-events: none;
+    }
+    /* Stof-badge */
+    .fabric-badge {
+      position: absolute; bottom: 1rem; left: 1rem;
+      background: rgba(255,255,255,0.92); border-radius: 50px;
+      padding: 0.4rem 1rem; font-size: 0.8rem;
+      color: var(--tekst); box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+    .preview-info {
+      padding: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .preview-info .rose-count-display {
+      font-size: 2rem; color: var(--rose-dark);
+    }
+    .preview-info .rose-count-label { font-size: 0.8rem; color: var(--tekst-lys); }
+    .preview-price-big {
+      font-size: 2rem; color: var(--rose-dark);
+    }
+
+    /* ===== KONFIGURATOR ===== */
+    .konfigurator h1 { margin-bottom: 0.5rem; }
+    .konfigurator .subtitle { color: var(--tekst-lys); margin-bottom: 2rem; }
+
+    .config-section { margin-bottom: 2rem; }
+    .config-label {
+      font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--tekst); margin-bottom: 0.75rem; display: block;
+    }
+
+    /* Antal roser */
+    .antal-grid {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .antal-btn {
+      padding: 0.6rem 1.1rem; border-radius: 50px;
+      border: 1.5px solid #e8d5d5; background: white;
+      font-family: inherit; font-size: 0.9rem; cursor: pointer;
+      transition: all 0.2s; color: var(--tekst);
+    }
+    .antal-btn:hover { border-color: var(--rose-dark); color: var(--rose-dark); }
+    .antal-btn.active {
+      background: var(--rose-dark); color: white; border-color: var(--rose-dark);
+    }
+
+    /* Farvevalg */
+    .farve-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .farve-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 3px solid transparent; cursor: pointer;
+      transition: all 0.2s; position: relative;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .farve-btn:hover { transform: scale(1.15); }
+    .farve-btn.active {
+      border-color: var(--rose-dark);
+      box-shadow: 0 0 0 3px rgba(212,104,122,0.3);
+    }
+    .farve-btn[title]::after {
+      content: attr(title);
+      position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%);
+      font-size: 0.65rem; white-space: nowrap; color: var(--tekst-lys);
+      pointer-events: none; opacity: 0; transition: opacity 0.2s;
+    }
+    .farve-btn:hover::after { opacity: 1; }
+
+    /* Stof */
+    .stof-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .stof-btn {
+      padding: 0.5rem 1rem; border-radius: 8px;
+      border: 1.5px solid #e8d5d5; background: white;
+      font-family: inherit; font-size: 0.82rem; cursor: pointer;
+      transition: all 0.2s; color: var(--tekst);
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .stof-btn:hover { border-color: var(--rose-dark); }
+    .stof-btn.active { background: var(--rose-dark); color: white; border-color: var(--rose-dark); }
+    .stof-swatch {
+      width: 16px; height: 16px; border-radius: 3px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    /* Besked */
+    .besked-input {
+      width: 100%; padding: 0.85rem 1rem;
+      border: 1.5px solid #e8d5d5; border-radius: 10px;
+      font-family: inherit; font-size: 0.95rem;
+      background: var(--creme); outline: none;
+      transition: border-color 0.2s; resize: none; height: 90px;
+    }
+    .besked-input:focus { border-color: var(--rose-dark); }
+    .char-count { font-size: 0.75rem; color: var(--tekst-lys); text-align: right; margin-top: 0.3rem; }
+
+    /* Pris sektion */
+    .pris-breakdown {
+      background: var(--creme); border-radius: 12px; padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .pris-row { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 0.4rem; }
+    .pris-row.total-row {
+      font-size: 1.2rem; color: var(--rose-dark);
+      border-top: 1px solid rgba(212,104,122,0.2);
+      padding-top: 0.6rem; margin-top: 0.4rem;
+    }
+
+    .add-btn {
+      width: 100%; padding: 1.1rem;
+      background: var(--rose-dark); color: white;
+      border: none; border-radius: 50px; font-family: inherit;
+      font-size: 1rem; letter-spacing: 0.08em; cursor: pointer;
+      transition: all 0.3s; box-shadow: 0 4px 20px rgba(212,104,122,0.4);
+    }
+    .add-btn:hover { background: #b85568; transform: translateY(-2px); }
+
+    /* Valgt farve navn */
+    .selected-name {
+      font-size: 0.85rem; color: var(--rose-dark);
+      margin-left: 0.5rem; font-style: italic;
+    }
+
+    @media(max-width: 768px) {
+      .produkt-wrapper { grid-template-columns: 1fr; padding-top: 90px; }
+      .preview-box { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">RoseN<span>Shine</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Forside</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="gaveideer.html">Gaveidéer</a></li>
+    <li><a href="om-os.html">Om os</a></li>
+    <li><a href="kontakt.html">Kontakt</a></li>
+  </ul>
+  <div class="nav-icons">
+    <button onclick="location.href='kurv.html'" title="Kurv">🛒<span class="cart-count">0</span></button>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="produkt-wrapper">
+
+  <!-- VENSTRE: PREVIEW -->
+  <div class="preview-box">
+    <div class="preview-img-wrap">
+      <img id="preview-img" src="css/blomst1.jpg" alt="Din buket">
+      <div class="color-overlay" id="color-overlay"></div>
+      <div class="fabric-badge" id="fabric-badge">Sort stof</div>
+    </div>
+    <div class="preview-info">
+      <div>
+        <div class="rose-count-display" id="preview-count">12</div>
+        <div class="rose-count-label">roser</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:0.8rem;color:var(--tekst-lys)">Din pris</div>
+        <div class="preview-price-big" id="preview-price">449 kr.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HØJRE: KONFIGURATOR -->
+  <div class="konfigurator">
+    <span class="section-tag">Design din buket</span>
+    <h1>Evige roser – <em style="color:var(--rose-dark);font-style:italic">dit valg</em></h1>
+    <p class="subtitle">Tilpas din buket og se prisen opdatere sig live</p>
+
+    <!-- ANTAL ROSER -->
+    <div class="config-section">
+      <span class="config-label">🌹 Antal roser</span>
+      <div class="antal-grid">
+        <button class="antal-btn" data-antal="1" data-pris="49">1 rose</button>
+        <button class="antal-btn" data-antal="3" data-pris="129">3 roser</button>
+        <button class="antal-btn active" data-antal="12" data-pris="449">12 roser</button>
+        <button class="antal-btn" data-antal="20" data-pris="699">20 roser</button>
+        <button class="antal-btn" data-antal="50" data-pris="1499">50 roser</button>
+        <button class="antal-btn" data-antal="100" data-pris="2799">100 roser</button>
+      </div>
+    </div>
+
+    <!-- FARVE PÅ ROSER -->
+    <div class="config-section" style="margin-top:2.5rem">
+      <span class="config-label">🎨 Farve på roser <span class="selected-name" id="farve-navn">Rød</span></span>
+      <div class="farve-grid">
+        <button class="farve-btn active" style="background:#c0392b" title="Rød" data-farve="rød" data-hex="#c0392b" data-img="css/blomst1.jpg"></button>
+        <button class="farve-btn" style="background:#f5f5f5;border:1px solid #ddd" title="Hvid" data-farve="hvid" data-hex="#f0f0f0" data-img="css/blomst3.jpg"></button>
+        <button class="farve-btn" style="background:#f2a7b0" title="Lyserød" data-farve="lyserød" data-hex="#f2a7b0" data-img="css/blomst2.jpg"></button>
+        <button class="farve-btn" style="background:#1a1a1a" title="Sort" data-farve="sort" data-hex="#2a1a1a" data-img="css/blomst14.jpg"></button>
+        <button class="farve-btn" style="background:#4a90d9" title="Blå" data-farve="blå" data-hex="#4a90d9" data-img="css/blomst6.jpg"></button>
+        <button class="farve-btn" style="background:#8e44ad" title="Lilla" data-farve="lilla" data-hex="#8e44ad" data-img="css/blomst8.jpg"></button>
+        <button class="farve-btn" style="background:#c9a96e" title="Guld" data-farve="guld" data-hex="#c9a96e" data-img="css/blomst17.jpg"></button>
+      </div>
+    </div>
+
+    <!-- FARVE PÅ STOF -->
+    <div class="config-section" style="margin-top:2.5rem">
+      <span class="config-label">🎀 Indpakning / stof</span>
+      <div class="stof-grid">
+        <button class="stof-btn active" data-stof="Sort stof" data-stofpris="0">
+          <span class="stof-swatch" style="background:#1a1a1a"></span> Sort stof
+        </button>
+        <button class="stof-btn" data-stof="Hvidt stof" data-stofpris="0">
+          <span class="stof-swatch" style="background:#f5f5f5;border:1px solid #ddd"></span> Hvidt stof
+        </button>
+        <button class="stof-btn" data-stof="Beige stof" data-stofpris="0">
+          <span class="stof-swatch" style="background:#d4b896"></span> Beige stof
+        </button>
+        <button class="stof-btn" data-stof="Rød indpakning" data-stofpris="0">
+          <span class="stof-swatch" style="background:#c0392b"></span> Rød indpakning
+        </button>
+        <button class="stof-btn" data-stof="Satin / luksus" data-stofpris="49">
+          <span class="stof-swatch" style="background:linear-gradient(135deg,#f5e6c8,#c9a96e)"></span> Satin / luksus +49 kr.
+        </button>
+      </div>
+    </div>
+
+    <!-- PERSONLIG BESKED -->
+    <div class="config-section" style="margin-top:2rem">
+      <span class="config-label">💌 Personlig besked (valgfri)</span>
+      <textarea class="besked-input" id="besked" maxlength="120" placeholder="Til min elskede ❤️ – skriv din kærlige besked her..."></textarea>
+      <div class="char-count"><span id="char-count">0</span>/120 tegn</div>
+    </div>
+
+    <!-- PRIS BREAKDOWN -->
+    <div class="pris-breakdown">
+      <div class="pris-row"><span>Roser (<span id="br-antal">12</span> stk.)</span><span id="br-rose-pris">449 kr.</span></div>
+      <div class="pris-row"><span>Indpakning</span><span id="br-stof-pris">Inkluderet</span></div>
+      <div class="pris-row"><span>Levering</span><span>49 kr.</span></div>
+      <div class="pris-row total-row"><span>Total</span><span id="br-total">498 kr.</span></div>
+    </div>
+
+    <button class="add-btn" onclick="tilfoejTilKurv()">Tilføj til kurv 🌹</button>
+
+    <p style="text-align:center;font-size:0.8rem;color:var(--tekst-lys);margin-top:1rem">
+      🔒 Sikker betaling · Levering 2–4 hverdage · Gratis retur
+    </p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="footer-logo">RoseN<span>Shine</span></div>
+      <p>Blomster der aldrig visner – skabt til at symbolisere en kærlighed der holder for evigt.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="gaveideer.html">Gaveidéer</a></li>
+        <li><a href="om-os.html">Om os</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 RoseNShine. Alle rettigheder forbeholdes.</p></div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  let valgtAntal = 12;
+  let valgtPris = 449;
+  let valgtStofPris = 0;
+  let valgtFarveHex = '#c0392b';
+  let valgtFarveNavn = 'Rød';
+  let valgtStofNavn = 'Sort stof';
+  let valgtImg = 'css/blomst1.jpg';
+
+  // ===== ANTAL =====
+  document.querySelectorAll('.antal-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.antal-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      valgtAntal = parseInt(btn.dataset.antal);
+      valgtPris = parseInt(btn.dataset.pris);
+      opdaterAlt();
+    });
+  });
+
+  // ===== FARVE =====
+  document.querySelectorAll('.farve-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.farve-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      valgtFarveHex = btn.dataset.hex;
+      valgtFarveNavn = btn.dataset.farve;
+      valgtImg = btn.dataset.img;
+      opdaterAlt();
+    });
+  });
+
+  // ===== STOF =====
+  document.querySelectorAll('.stof-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.stof-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      valgtStofPris = parseInt(btn.dataset.stofpris);
+      valgtStofNavn = btn.dataset.stof;
+      opdaterAlt();
+    });
+  });
+
+  // ===== BESKED TÆLLER =====
+  document.getElementById('besked').addEventListener('input', function() {
+    document.getElementById('char-count').textContent = this.value.length;
+  });
+
+  // ===== OPDATER ALT =====
+  function opdaterAlt() {
+    const total = valgtPris + valgtStofPris + 49;
+
+    // Preview billede + farve overlay
+    const img = document.getElementById('preview-img');
+    img.style.opacity = '0';
+    setTimeout(() => {
+      img.src = valgtImg;
+      img.style.opacity = '1';
+    }, 200);
+
+    document.getElementById('color-overlay').style.background = valgtFarveHex;
+    document.getElementById('fabric-badge').textContent = valgtStofNavn;
+    document.getElementById('preview-count').textContent = valgtAntal;
+    document.getElementById('preview-price').textContent = (valgtPris + valgtStofPris) + ' kr.';
+    document.getElementById('farve-navn').textContent = valgtFarveNavn.charAt(0).toUpperCase() + valgtFarveNavn.slice(1);
+
+    // Breakdown
+    document.getElementById('br-antal').textContent = valgtAntal;
+    document.getElementById('br-rose-pris').textContent = valgtPris + ' kr.';
+    document.getElementById('br-stof-pris').textContent = valgtStofPris > 0 ? valgtStofPris + ' kr.' : 'Inkluderet';
+    document.getElementById('br-total').textContent = total + ' kr.';
+  }
+
+  // ===== TILFØJ TIL KURV =====
+  function tilfoejTilKurv() {
+    const besked = document.getElementById('besked').value;
+    const navn = `${valgtAntal} ${valgtFarveNavn} roser (${valgtStofNavn})`;
+    addToCart(
+      `custom-${Date.now()}`,
+      navn,
+      valgtPris + valgtStofPris,
+      valgtImg
+    );
+    if (besked) showToast(`Buket tilføjet med besked: "${besked.substring(0,30)}..." 💌`);
+  }
+</script>
+</body>
+</html>

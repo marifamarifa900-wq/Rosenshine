@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontakt – RoseNShine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .toast { position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:#2a1a1a;color:white;padding:.85rem 1.75rem;border-radius:50px;font-size:.9rem;opacity:0;transition:all .3s;z-index:999; }
+    .toast.show { opacity:1;transform:translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">RoseN<span>Shine</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Forside</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="gaveideer.html">Gaveidéer</a></li>
+    <li><a href="om-os.html">Om os</a></li>
+    <li><a href="kontakt.html">Kontakt</a></li>
+  </ul>
+  <div class="nav-icons">
+    <button onclick="location.href='kurv.html'" title="Kurv">🛒<span class="cart-count">0</span></button>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="contact-section">
+  <div class="contact-info">
+    <span class="section-tag">Skriv til os</span>
+    <h2>Vi er her for at hjælpe</h2>
+    <p style="margin-bottom:2rem">Har du spørgsmål til en ordre, et produkt eller bare brug for hjælp til at finde den perfekte gave? Vi svarer inden for 24 timer.</p>
+
+    <div class="contact-item">
+      <span class="icon">📧</span>
+      <div>
+        <strong>E-mail</strong>
+        <p><a href="mailto:hej@evigeblomstre.dk">hej@evigeblomstre.dk</a></p>
+      </div>
+    </div>
+    <div class="contact-item">
+      <span class="icon">📞</span>
+      <div>
+        <strong>Telefon</strong>
+        <p><a href="tel:+4512345678">+45 12 34 56 78</a></p>
+        <p style="font-size:0.8rem">Man–Fre: 9–17</p>
+      </div>
+    </div>
+    <div class="contact-item">
+      <span class="icon">📍</span>
+      <div>
+        <strong>Adresse</strong>
+        <p>Blomstervej 12<br>1234 København</p>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem">
+      <p style="margin-bottom:0.75rem;font-size:0.85rem;letter-spacing:0.05em">Følg os på sociale medier</p>
+      <div class="social-links" style="justify-content:flex-start">
+        <a href="#" aria-label="Instagram" style="color:var(--tekst)">📷</a>
+        <a href="#" aria-label="Facebook" style="color:var(--tekst)">📘</a>
+        <a href="#" aria-label="Pinterest" style="color:var(--tekst)">📌</a>
+      </div>
+    </div>
+  </div>
+
+  <form class="contact-form" id="contact-form">
+    <h3 style="margin-bottom:1.5rem">Send os en besked</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div class="form-group">
+        <label for="navn">Navn</label>
+        <input type="text" id="navn" placeholder="Dit navn" required>
+      </div>
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" placeholder="din@email.dk" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="emne">Emne</label>
+      <select id="emne">
+        <option>Spørgsmål om ordre</option>
+        <option>Produktspørgsmål</option>
+        <option>Hjælp til gaveidé</option>
+        <option>Retur & reklamation</option>
+        <option>Andet</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="besked">Besked</label>
+      <textarea id="besked" placeholder="Skriv din besked her..." required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:100%">Send besked 🌹</button>
+  </form>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="footer-logo">RoseN<span>Shine</span></div>
+      <p>Blomster der aldrig visner – skabt til at symbolisere en kærlighed der holder for evigt.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="gaveideer.html">Gaveidéer</a></li>
+        <li><a href="om-os.html">Om os</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 RoseNShine. Alle rettigheder forbeholdes.</p></div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

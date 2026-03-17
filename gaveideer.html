@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gaveidéer – RoseNShine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .toast { position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:#2a1a1a;color:white;padding:.85rem 1.75rem;border-radius:50px;font-size:.9rem;opacity:0;transition:all .3s;z-index:999; }
+    .toast.show { opacity:1;transform:translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">RoseN<span>Shine</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Forside</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="gaveideer.html">Gaveidéer</a></li>
+    <li><a href="om-os.html">Om os</a></li>
+    <li><a href="kontakt.html">Kontakt</a></li>
+  </ul>
+  <div class="nav-icons">
+    <button onclick="location.href='kurv.html'" title="Kurv">🛒<span class="cart-count">0</span></button>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="shop-hero">
+  <span class="section-tag">Inspiration</span>
+  <h1>Gaveidéer til <em style="color:var(--rose-dark);font-style:italic">særlige øjeblikke</em></h1>
+  <p>Find den perfekte gave til din elskede – uanset anledning</p>
+</div>
+
+<section>
+  <div class="inspiration-grid">
+
+    <div class="inspiration-card">
+      <img src="css/blomst4.jpg" alt="Valentinsdag">
+      <div class="card-body">
+        <h3>Valentinsdag</h3>
+        <p>Den ultimative kærlighedserklæring. Giv blomster der holder for evigt – ligesom din kærlighed.</p>
+        <div class="tag-list">
+          <span class="tag">14. februar</span>
+          <span class="tag">Romantisk</span>
+          <span class="tag">Kærlighed</span>
+        </div>
+        <div style="margin-top:1.25rem">
+          <a href="shop.html" class="btn btn-primary" style="font-size:0.85rem;padding:0.75rem 1.5rem">Se gaver</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="inspiration-card">
+      <img src="css/blomst5.jpg" alt="Årsdag">
+      <div class="card-body">
+        <h3>Årsdag & jubilæum</h3>
+        <p>Fejr jeres særlige dag med en gave der minder om, at jeres kærlighed aldrig visner.</p>
+        <div class="tag-list">
+          <span class="tag">Jubilæum</span>
+          <span class="tag">Årsdag</span>
+          <span class="tag">Evig kærlighed</span>
+        </div>
+        <div style="margin-top:1.25rem">
+          <a href="shop.html?cat=jubilæum" class="btn btn-primary" style="font-size:0.85rem;padding:0.75rem 1.5rem">Se gaver</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="inspiration-card">
+      <img src="css/blomst7.jpg" alt="Fødselsdag">
+      <div class="card-body">
+        <h3>Fødselsdag</h3>
+        <p>Overrask din kæreste med en gave der er anderledes – blomster der aldrig dør.</p>
+        <div class="tag-list">
+          <span class="tag">Fødselsdag</span>
+          <span class="tag">Overraskelse</span>
+          <span class="tag">Gave</span>
+        </div>
+        <div style="margin-top:1.25rem">
+          <a href="shop.html?cat=gaver" class="btn btn-primary" style="font-size:0.85rem;padding:0.75rem 1.5rem">Se gaver</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="inspiration-card">
+      <img src="css/blomst1.jpg" alt="Undskyld">
+      <div class="card-body">
+        <h3>Undskyld med blomster</h3>
+        <p>Nogle gange siger blomster mere end ord. Giv en gave der viser, at du mener det alvorligt.</p>
+        <div class="tag-list">
+          <span class="tag">Forsoning</span>
+          <span class="tag">Kærlighed</span>
+        </div>
+        <div style="margin-top:1.25rem">
+          <a href="shop.html?cat=roser" class="btn btn-primary" style="font-size:0.85rem;padding:0.75rem 1.5rem">Se roser</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="inspiration-card">
+      <img src="css/blomst6.jpg" alt="Bare fordi">
+      <div class="card-body">
+        <h3>"Bare fordi" – gaven</h3>
+        <p>Den bedste gave er den der gives uden grund. Overrask din partner på en helt almindelig dag.</p>
+        <div class="tag-list">
+          <span class="tag">Spontan</span>
+          <span class="tag">Romantisk</span>
+          <span class="tag">Overraskelse</span>
+        </div>
+        <div style="margin-top:1.25rem">
+          <a href="shop.html" class="btn btn-primary" style="font-size:0.85rem;padding:0.75rem 1.5rem">Se alle</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="inspiration-card">
+      <img src="css/blomst2.jpg" alt="Bryllup">
+      <div class="card-body">
+        <h3>Bryllup & forlovelse</h3>
+        <p>Evige blomster til den evige forpligtelse. Perfekt som dekoration eller gave til bryllupsdagen.</p>
+        <div class="tag-list">
+          <span class="tag">Bryllup</span>
+          <span class="tag">Forlovelse</span>
+          <span class="tag">Dekoration</span>
+        </div>
+        <div style="margin-top:1.25rem">
+          <a href="shop.html?cat=buketter" class="btn btn-primary" style="font-size:0.85rem;padding:0.75rem 1.5rem">Se buketter</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="romantic-banner">
+  <h2>Ikke sikker på hvad du skal vælge?</h2>
+  <p>Kontakt os og vi hjælper dig med at finde den perfekte gave til din elskede.</p>
+  <a href="kontakt.html" class="btn btn-outline">Kontakt os</a>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="footer-logo">RoseN<span>Shine</span></div>
+      <p>Blomster der aldrig visner – skabt til at symbolisere en kærlighed der holder for evigt.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="gaveideer.html">Gaveidéer</a></li>
+        <li><a href="om-os.html">Om os</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 RoseNShine. Alle rettigheder forbeholdes.</p></div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
