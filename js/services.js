@@ -29,13 +29,15 @@ async function gemOrdreIDatabase(ordre) {
 }
 
 async function hentAlleOrdrer() {
+  // Kræver at admin-token er sat i keys.js
+  const adminKey = (typeof window._RNS_ADMIN_KEY !== 'undefined') ? window._RNS_ADMIN_KEY : CONFIG.SUPABASE_ANON_KEY;
   try {
     const res = await fetch(
       `${CONFIG.SUPABASE_URL}/rest/v1/ordrer?order=oprettet_dato.desc`,
       {
         headers: {
           'apikey': CONFIG.SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${CONFIG.SUPABASE_ANON_KEY}`
+          'Authorization': `Bearer ${adminKey}`
         }
       }
     );

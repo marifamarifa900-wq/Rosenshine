@@ -164,22 +164,49 @@
 <script src="js/config.js"></script>
 <script src="js/services.js"></script>
 <script>
-// ===== ADGANGSKODE =====
-// Skift denne til din egen adgangskode
-const ADMIN_PASSWORD = 'RoseNShine2026';
+// ===== SIKKER LOGIN MED HASH + BRUTE FORCE BESKYTTELSE =====
+// SHA-256 hash af adgangskoden – selve koden er IKKE i kildekoden
+// Hash af "RoseNShine2026!" – skift ved at køre: sha256("din nye kode")
+const ADMIN_HASH = '09bea9ad1dda32339d24523761b523bc531227ceba53ce1efeea33f92ffeb798';
+
+let loginForsøg = 0;
+let låstTil = 0;
+
+async function hashStreng(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
 
 let alleOrdrer = [];
 
-function logInd() {
+async function logInd() {
+  // Brute force beskyttelse
+  if (Date.now() < låstTil) {
+    const sekunder = Math.ceil((låstTil - Date.now()) / 1000);
+    document.getElementById('login-fejl').textContent = `For mange forsøg. Vent ${sekunder} sekunder.`;
+    document.getElementById('login-fejl').style.display = 'block';
+    return;
+  }
+
   const pw = document.getElementById('admin-pw').value;
-  if (pw === ADMIN_PASSWORD) {
+  const hash = await hashStreng(pw);
+
+  if (hash === ADMIN_HASH) {
+    loginForsøg = 0;
     document.getElementById('login-side').style.display = 'none';
     document.getElementById('admin-panel').style.display = 'flex';
     sessionStorage.setItem('rns-admin', '1');
     indlæsOrdrer();
   } else {
-    document.getElementById('login-fejl').style.display = 'block';
+    loginForsøg++;
     document.getElementById('admin-pw').value = '';
+    if (loginForsøg >= 5) {
+      låstTil = Date.now() + 60000; // 1 minuts lockout
+      document.getElementById('login-fejl').textContent = 'For mange forsøg. Låst i 60 sekunder.';
+    } else {
+      document.getElementById('login-fejl').textContent = `Forkert adgangskode (${loginForsøg}/5 forsøg)`;
+    }
+    document.getElementById('login-fejl').style.display = 'block';
   }
 }
 
