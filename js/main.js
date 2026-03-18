@@ -55,7 +55,7 @@ function renderCart() {
   if (!container) return;
   if (cart.length === 0) {
     container.innerHTML = '<p style="text-align:center;padding:2rem;color:var(--tekst-lys)">Din kurv er tom 🌸</p>';
-    updateSummary();
+    if (typeof opdaterSummary === 'function') opdaterSummary();
     return;
   }
   container.innerHTML = cart.map(item => {
@@ -78,8 +78,6 @@ function renderCart() {
       </div>
     </div>
   `}).join('');
-  updateSummary();
-  // Kald også opdaterSummary hvis vi er på kurvsiden
   if (typeof opdaterSummary === 'function') opdaterSummary();
 }
 
@@ -93,16 +91,6 @@ function changeQty(id, delta) {
   renderCart();
 }
 
-function updateSummary() {
-  const hilsenCheck = document.getElementById('kurv-hilsen-check');
-  const hilsen = hilsenCheck && hilsenCheck.textContent === '✓' ? 15 : 0;
-  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
-  const shipping = subtotal > 0 ? 49 : 0;
-  const el = id => document.getElementById(id);
-  if (el('subtotal')) el('subtotal').textContent = (subtotal + hilsen) + ' kr.';
-  if (el('shipping')) el('shipping').textContent = shipping + ' kr.';
-  if (el('total')) el('total').textContent = (subtotal + hilsen + shipping) + ' kr.';
-}
 
 // ===== NYHEDSBREV =====
 document.querySelectorAll('.newsletter-form').forEach(form => {
