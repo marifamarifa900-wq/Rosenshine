@@ -69,6 +69,11 @@ async function opdaterOrdreStatus(ordreId, status) {
 
 // ===== EMAILJS =====
 async function sendOrdreEmail(ordre) {
+  // Springer over hvis EmailJS ikke er konfigureret
+  if (!CONFIG.EMAILJS_PUBLIC_KEY || !CONFIG.EMAILJS_SERVICE_ID || !CONFIG.EMAILJS_TEMPLATE_ID) {
+    console.log('EmailJS ikke konfigureret – email springes over');
+    return false;
+  }
   try {
     const produktListe = ordre.produkter
       .map(p => `${p.name} x${p.qty} – ${p.price * p.qty} kr.`)
