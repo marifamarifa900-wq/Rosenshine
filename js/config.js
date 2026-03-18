@@ -1,7 +1,7 @@
 const CONFIG = {
-  STRIPE_PUBLIC_KEY: window._RNS_STRIPE || 'rk_test_51TCQHGF5AI9kde4vVZalDtLBQ4F0A7Jh8VmNsxAnNJwb9xnLBasxc4rfKQHkCvYMkwwFfATd5orEdiSqRqrgwyH900jalbWfwq',
-  SUPABASE_URL: window._RNS_SB_URL || 'https://oooddecjjqpmdttcddud.supabase.co',
-  SUPABASE_ANON_KEY: window._RNS_SB_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9vb2RkZWNqanFwbWR0dGNkZHVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NjUwNDMsImV4cCI6MjA4OTQ0MTA0M30.swIlt2N9Vovkzc25sZv-PVxRNZlrezPcbwixmLPrE-4',
+  STRIPE_PUBLIC_KEY: window._RNS_STRIPE || '',
+  SUPABASE_URL: window._RNS_SB_URL || '',
+  SUPABASE_ANON_KEY: window._RNS_SB_KEY || '',
   EMAILJS_PUBLIC_KEY: '',
   EMAILJS_SERVICE_ID: '',
   EMAILJS_TEMPLATE_ID: '',
