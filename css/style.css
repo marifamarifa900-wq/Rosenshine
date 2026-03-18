@@ -586,3 +586,118 @@ footer {
   .antal-vælger { gap: 0.3rem; }
   .antal-chip { padding: 0.4rem 0.7rem; font-size: 0.75rem; }
 }
+
+/* ===== CHECKOUT KOMPLET ===== */
+.progress-bar {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; margin-bottom: 3rem; padding: 0 1rem;
+}
+.pb-step {
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  position: relative; flex: 1; max-width: 140px;
+}
+.pb-step::after {
+  content: ''; position: absolute; top: 16px; left: 60%;
+  width: 80%; height: 2px; background: #e8d5d5; z-index: 0;
+}
+.pb-step:last-child::after { display: none; }
+.pb-step.done::after { background: var(--rose-dark); }
+.pb-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 2px solid #e8d5d5; background: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; z-index: 1; transition: all 0.3s;
+  color: var(--tekst-lys);
+}
+.pb-step.active .pb-num { background: var(--rose-dark); border-color: var(--rose-dark); color: white; }
+.pb-step.done .pb-num { background: var(--rose-dark); border-color: var(--rose-dark); color: white; }
+.pb-label { font-size: 0.72rem; color: var(--tekst-lys); text-align: center; letter-spacing: 0.05em; }
+.pb-step.active .pb-label { color: var(--rose-dark); }
+
+/* Checkout trin sider */
+.checkout-step-page { display: none; }
+.checkout-step-page.aktiv { display: block; }
+
+/* Levering valg */
+.levering-valg { display: flex; flex-direction: column; gap: 0.75rem; }
+.levering-option {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.25rem; border: 1.5px solid #e8d5d5;
+  border-radius: 10px; cursor: pointer; transition: all 0.2s;
+  background: white;
+}
+.levering-option:hover { border-color: var(--rose); }
+.levering-option.valgt { border-color: var(--rose-dark); background: #fff5f7; }
+.levering-option input[type=radio] { display: none; }
+.lev-venstre { display: flex; align-items: center; gap: 0.75rem; }
+.lev-radio {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid #ccc; flex-shrink: 0; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.levering-option.valgt .lev-radio { border-color: var(--rose-dark); background: var(--rose-dark); }
+.levering-option.valgt .lev-radio::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: white; }
+.lev-info strong { display: block; font-size: 0.9rem; }
+.lev-info span { font-size: 0.78rem; color: var(--tekst-lys); }
+.lev-pris { font-size: 0.95rem; color: var(--rose-dark); font-weight: 600; }
+
+/* Dato vælger */
+.dato-felt { margin-top: 0.75rem; display: none; }
+.dato-felt input {
+  width: 100%; padding: 0.85rem 1rem;
+  border: 1.5px solid #e8d5d5; border-radius: 8px;
+  font-family: inherit; font-size: 0.95rem; background: var(--creme); outline: none;
+}
+.dato-felt input:focus { border-color: var(--rose-dark); }
+
+/* Betaling */
+.betaling-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.25rem; }
+.bet-tab {
+  flex: 1; padding: 0.85rem; border: 1.5px solid #e8d5d5;
+  border-radius: 8px; background: white; cursor: pointer;
+  font-family: inherit; font-size: 0.85rem; text-align: center;
+  transition: all 0.2s; display: flex; flex-direction: column;
+  align-items: center; gap: 0.3rem;
+}
+.bet-tab .bet-icon { font-size: 1.4rem; }
+.bet-tab.active { border-color: var(--rose-dark); background: #fff5f7; }
+.bet-panel { display: none; }
+.bet-panel.aktiv { display: block; }
+
+/* Ordre bekræftelse */
+.bekræftelse-side {
+  text-align: center; padding: 3rem 1rem; max-width: 500px; margin: 0 auto;
+}
+.bekræftelse-side .check-circle {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--rose), var(--rose-dark));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.2rem; margin: 0 auto 1.5rem;
+  animation: popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
+}
+.ordre-detaljer {
+  background: var(--creme); border-radius: 12px; padding: 1.25rem;
+  text-align: left; margin: 1.5rem 0;
+}
+.ordre-detaljer .od-row {
+  display: flex; justify-content: space-between;
+  font-size: 0.88rem; padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(242,167,176,0.2);
+}
+.ordre-detaljer .od-row:last-child { border: none; font-weight: 600; color: var(--rose-dark); }
+
+/* Anmeldelse i checkout */
+.checkout-review {
+  background: var(--creme); border-radius: 10px; padding: 1rem 1.25rem;
+  margin-top: 1.5rem; font-size: 0.85rem;
+}
+.checkout-review .stars { color: var(--guld); font-size: 0.9rem; margin-bottom: 0.3rem; }
+
+/* Knap gruppe */
+.btn-gruppe { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+.btn-gruppe .btn { flex: 1; text-align: center; }
+
+@media(max-width: 480px) {
+  .betaling-tabs { flex-direction: column; }
+  .pb-step::after { display: none; }
+}

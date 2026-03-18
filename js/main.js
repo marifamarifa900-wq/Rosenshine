@@ -79,6 +79,8 @@ function renderCart() {
     </div>
   `}).join('');
   updateSummary();
+  // Kald også opdaterSummary hvis vi er på kurvsiden
+  if (typeof opdaterSummary === 'function') opdaterSummary();
 }
 
 function changeQty(id, delta) {
