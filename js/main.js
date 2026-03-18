@@ -52,15 +52,13 @@ function renderCart() {
     updateSummary();
     return;
   }
-  container.innerHTML = cart.map(item => `
+  container.innerHTML = cart.map(item => {
+    const url = `produkt-detalje.html?from=kurv.html&id=${item.id}&img=${encodeURIComponent(item.img)}&navn=${encodeURIComponent(item.name)}&pris=${item.price}`;
+    return `
     <div class="cart-item">
-      <a href="produkt-detalje.html?from=kurv.html&id=${item.id}&img=${encodeURIComponent(item.img)}&navn=${encodeURIComponent(item.name)}&pris=${item.price}">
-        <img src="${item.img}" alt="${item.name}" style="cursor:pointer">
-      </a>
+      <img src="${item.img}" alt="${item.name}" style="cursor:pointer" onclick="location.href='${url}'">
       <div class="cart-item-info">
-        <a href="produkt-detalje.html?from=kurv.html&id=${item.id}&img=${encodeURIComponent(item.img)}&navn=${encodeURIComponent(item.name)}&pris=${item.price}" style="color:inherit">
-          <h3>${item.name}</h3>
-        </a>
+        <h3 style="cursor:pointer" onclick="location.href='${url}'">${item.name}</h3>
         <p class="desc">${item.price} kr. stk.</p>
         <div class="qty-control">
           <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
@@ -70,7 +68,7 @@ function renderCart() {
       </div>
       <div class="cart-item-price">${item.price * item.qty} kr.</div>
     </div>
-  `).join('');
+  `}).join('');
   updateSummary();
 }
 
