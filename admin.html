@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin – RoseNShine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--rose:#f2a7b0;--rose-dark:#d4687a;--creme:#fdf6f0;--tekst:#3a2a2a;--tekst-lys:#7a5c5c;--guld:#c9a96e}
+    body{font-family:'Cormorant Garamond',Georgia,serif;background:#f5f5f5;color:var(--tekst)}
+    a{text-decoration:none;color:inherit}
+
+    /* LOGIN */
+    .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-height(135deg,#fdf0f3,var(--creme))}
+    .login-box{background:white;border-radius:16px;padding:2.5rem;width:100%;max-width:380px;box-shadow:0 8px 40px rgba(180,100,110,.15);text-align:center}
+    .login-box h1{font-size:1.6rem;margin-bottom:.4rem;color:var(--rose-dark)}
+    .login-box p{font-size:.85rem;color:var(--tekst-lys);margin-bottom:1.5rem}
+    .login-box input{width:100%;padding:.85rem 1rem;border:1.5px solid #e8d5d5;border-radius:8px;font-family:inherit;font-size:.95rem;background:var(--creme);outline:none;margin-bottom:.75rem}
+    .login-box input:focus{border-color:var(--rose-dark)}
+    .login-btn{width:100%;padding:.9rem;background:var(--rose-dark);color:white;border:none;border-radius:8px;font-family:inherit;font-size:.95rem;cursor:pointer;letter-spacing:.08em;transition:background .2s}
+    .login-btn:hover{background:#b85568}
+    .login-fejl{color:#e74c3c;font-size:.8rem;margin-top:.5rem;display:none}
+
+    /* ADMIN LAYOUT */
+    .admin-wrap{display:none;min-height:100vh;flex-direction:column}
+    .admin-header{background:white;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee;position:sticky;top:0;z-index:10}
+    .admin-logo{font-size:1.2rem;color:var(--rose-dark)}
+    .admin-logo span{color:var(--guld)}
+    .logout-btn{background:none;border:1.5px solid #ddd;border-radius:6px;padding:.4rem .9rem;cursor:pointer;font-family:inherit;font-size:.82rem;color:var(--tekst-lys);transition:all .2s}
+    .logout-btn:hover{border-color:var(--rose-dark);color:var(--rose-dark)}
+
+    .admin-body{padding:2rem;max-width:1200px;margin:0 auto;width:100%}
+
+    /* STATS */
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:2rem}
+    .stat-card{background:white;border-radius:12px;padding:1.25rem 1.5rem;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+    .stat-card .stat-label{font-size:.75rem;color:var(--tekst-lys);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.3rem}
+    .stat-card .stat-val{font-size:1.8rem;color:var(--tekst)}
+    .stat-card .stat-sub{font-size:.78rem;color:var(--tekst-lys);margin-top:.2rem}
+
+    /* FILTER */
+    .filter-row{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem;align-items:center}
+    .filter-row input{padding:.6rem 1rem;border:1.5px solid #e8d5d5;border-radius:8px;font-family:inherit;font-size:.88rem;background:white;outline:none;min-width:220px}
+    .filter-row input:focus{border-color:var(--rose-dark)}
+    .status-filter{padding:.6rem 1rem;border:1.5px solid #e8d5d5;border-radius:8px;font-family:inherit;font-size:.88rem;background:white;outline:none;cursor:pointer}
+
+    /* TABEL */
+    .tabel-wrap{background:white;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.06);overflow:hidden}
+    table{width:100%;border-collapse:collapse}
+    thead{background:#fdf0f3}
+    th{padding:.85rem 1rem;text-align:left;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--tekst-lys);font-weight:600;white-space:nowrap}
+    td{padding:.85rem 1rem;font-size:.88rem;border-top:1px solid #f5f0f0;vertical-align:middle}
+    tr:hover td{background:#fdf8f8}
+    .badge{display:inline-block;padding:.25rem .7rem;border-radius:50px;font-size:.72rem;letter-spacing:.05em;font-weight:600}
+    .badge-betalt{background:#d4edda;color:#155724}
+    .badge-afventer{background:#fff3cd;color:#856404}
+    .badge-fejlet{background:#f8d7da;color:#721c24}
+    .detalje-btn{background:none;border:1.5px solid #e8d5d5;border-radius:6px;padding:.3rem .75rem;cursor:pointer;font-family:inherit;font-size:.78rem;color:var(--tekst-lys);transition:all .2s}
+    .detalje-btn:hover{border-color:var(--rose-dark);color:var(--rose-dark)}
+    .ingen-ordrer{text-align:center;padding:3rem;color:var(--tekst-lys);font-size:.95rem}
+
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(42,26,26,.5);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .3s}
+    .modal-overlay.vis{opacity:1;pointer-events:all}
+    .modal-box{background:white;border-radius:16px;padding:2rem;max-width:520px;width:100%;max-height:85vh;overflow-y:auto;transform:translateY(20px);transition:transform .3s}
+    .modal-overlay.vis .modal-box{transform:translateY(0)}
+    .modal-box h3{margin-bottom:1.25rem;font-size:1.2rem}
+    .modal-row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid #f5f0f0;font-size:.88rem}
+    .modal-row:last-child{border:none}
+    .modal-row span:first-child{color:var(--tekst-lys)}
+    .modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--tekst-lys)}
+    .modal-box{position:relative}
+
+    /* Loading */
+    .loading{text-align:center;padding:3rem;color:var(--tekst-lys)}
+    .spinner-sm{width:28px;height:28px;border:2px solid var(--rose);border-top-color:var(--rose-dark);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 1rem}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    @media(max-width:768px){
+      .admin-body{padding:1rem}
+      th:nth-child(4),td:nth-child(4),th:nth-child(5),td:nth-child(5){display:none}
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="login-side" style="min-height:100vh;display:flex;align-items:center;justify-content:center">
+  <div class="login-box">
+    <h1>RoseN<span style="color:var(--guld)">Shine</span></h1>
+    <p>Admin panel – log ind for at fortsætte</p>
+    <input type="password" id="admin-pw" placeholder="Adgangskode" onkeydown="if(event.key==='Enter')logInd()">
+    <button class="login-btn" onclick="logInd()">Log ind</button>
+    <div class="login-fejl" id="login-fejl">Forkert adgangskode</div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-wrap" id="admin-panel">
+  <div class="admin-header">
+    <div class="admin-logo">RoseN<span>Shine</span> <span style="font-size:.8rem;color:var(--tekst-lys);margin-left:.5rem">Admin</span></div>
+    <button class="logout-btn" onclick="logUd()">Log ud</button>
+  </div>
+
+  <div class="admin-body">
+    <!-- STATS -->
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card"><div class="stat-label">Ordrer i alt</div><div class="stat-val" id="stat-total">–</div></div>
+      <div class="stat-card"><div class="stat-label">Betalte ordrer</div><div class="stat-val" id="stat-betalt">–</div></div>
+      <div class="stat-card"><div class="stat-label">Omsætning</div><div class="stat-val" id="stat-omsaetning">–</div><div class="stat-sub">kun betalte</div></div>
+      <div class="stat-card"><div class="stat-label">Afventende</div><div class="stat-val" id="stat-afventer">–</div></div>
+    </div>
+
+    <!-- FILTER -->
+    <div class="filter-row">
+      <input type="text" id="søg-input" placeholder="Søg på navn, email eller ordrenr..." oninput="filtrerOrdrer()">
+      <select class="status-filter" id="status-filter" onchange="filtrerOrdrer()">
+        <option value="alle">Alle statusser</option>
+        <option value="betalt">Betalt</option>
+        <option value="afventer">Afventer</option>
+        <option value="fejlet">Fejlet</option>
+      </select>
+      <button onclick="indlæsOrdrer()" style="padding:.6rem 1.2rem;background:var(--rose-dark);color:white;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.85rem">↻ Opdater</button>
+    </div>
+
+    <!-- TABEL -->
+    <div class="tabel-wrap">
+      <div class="loading" id="loading-state">
+        <div class="spinner-sm"></div>
+        Henter ordrer...
+      </div>
+      <table id="ordre-tabel" style="display:none">
+        <thead>
+          <tr>
+            <th>Ordrenr.</th>
+            <th>Kunde</th>
+            <th>Email</th>
+            <th>Dato</th>
+            <th>Levering</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="ordre-tbody"></tbody>
+      </table>
+      <div class="ingen-ordrer" id="ingen-ordrer" style="display:none">Ingen ordrer fundet 🌸</div>
+    </div>
+  </div>
+</div>
+
+<!-- DETALJE MODAL -->
+<div class="modal-overlay" id="detalje-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="lukModal()">✕</button>
+    <h3 id="modal-titel">Ordredetaljer</h3>
+    <div id="modal-indhold"></div>
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/services.js"></script>
+<script>
+// ===== ADGANGSKODE =====
+// Skift denne til din egen adgangskode
+const ADMIN_PASSWORD = 'RoseNShine2026';
+
+let alleOrdrer = [];
+
+function logInd() {
+  const pw = document.getElementById('admin-pw').value;
+  if (pw === ADMIN_PASSWORD) {
+    document.getElementById('login-side').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'flex';
+    sessionStorage.setItem('rns-admin', '1');
+    indlæsOrdrer();
+  } else {
+    document.getElementById('login-fejl').style.display = 'block';
+    document.getElementById('admin-pw').value = '';
+  }
+}
+
+function logUd() {
+  sessionStorage.removeItem('rns-admin');
+  document.getElementById('login-side').style.display = 'flex';
+  document.getElementById('admin-panel').style.display = 'none';
+}
+
+// Auto-login hvis session aktiv
+if (sessionStorage.getItem('rns-admin')) {
+  document.getElementById('login-side').style.display = 'none';
+  document.getElementById('admin-panel').style.display = 'flex';
+  indlæsOrdrer();
+}
+
+// ===== INDLÆS ORDRER =====
+async function indlæsOrdrer() {
+  document.getElementById('loading-state').style.display = 'block';
+  document.getElementById('ordre-tabel').style.display = 'none';
+  document.getElementById('ingen-ordrer').style.display = 'none';
+
+  alleOrdrer = await hentAlleOrdrer();
+  opdaterStats(alleOrdrer);
+  visOrdrer(alleOrdrer);
+}
+
+function opdaterStats(ordrer) {
+  const betalte = ordrer.filter(o => o.betalings_status === 'betalt');
+  const omsaetning = betalte.reduce((s, o) => s + (o.total || 0), 0);
+  const afventer = ordrer.filter(o => o.betalings_status === 'afventer').length;
+  document.getElementById('stat-total').textContent = ordrer.length;
+  document.getElementById('stat-betalt').textContent = betalte.length;
+  document.getElementById('stat-omsaetning').textContent = omsaetning.toLocaleString('da-DK') + ' kr.';
+  document.getElementById('stat-afventer').textContent = afventer;
+}
+
+function visOrdrer(ordrer) {
+  document.getElementById('loading-state').style.display = 'none';
+  if (ordrer.length === 0) {
+    document.getElementById('ingen-ordrer').style.display = 'block';
+    return;
+  }
+  document.getElementById('ordre-tabel').style.display = 'table';
+  const tbody = document.getElementById('ordre-tbody');
+  tbody.innerHTML = ordrer.map(o => {
+    const dato = o.oprettet_dato ? new Date(o.oprettet_dato).toLocaleDateString('da-DK') : '–';
+    const statusClass = o.betalings_status === 'betalt' ? 'badge-betalt' : o.betalings_status === 'fejlet' ? 'badge-fejlet' : 'badge-afventer';
+    const statusTekst = o.betalings_status === 'betalt' ? 'Betalt' : o.betalings_status === 'fejlet' ? 'Fejlet' : 'Afventer';
+    return `<tr>
+      <td style="font-weight:600;color:var(--rose-dark)">${o.ordre_nr || '–'}</td>
+      <td>${(o.fornavn || '') + ' ' + (o.efternavn || '')}</td>
+      <td style="color:var(--tekst-lys)">${o.email || '–'}</td>
+      <td style="color:var(--tekst-lys)">${dato}</td>
+      <td style="color:var(--tekst-lys);font-size:.8rem">${o.leverings_metode || '–'}</td>
+      <td style="color:var(--rose-dark);font-weight:600">${o.total ? o.total + ' kr.' : '–'}</td>
+      <td><span class="badge ${statusClass}">${statusTekst}</span></td>
+      <td><button class="detalje-btn" onclick="visDetaljer(${JSON.stringify(o).replace(/"/g,'&quot;')})">Se detaljer</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function filtrerOrdrer() {
+  const søg = document.getElementById('søg-input').value.toLowerCase();
+  const status = document.getElementById('status-filter').value;
+  const filtreret = alleOrdrer.filter(o => {
+    const matchSøg = !søg ||
+      (o.ordre_nr || '').toLowerCase().includes(søg) ||
+      (o.fornavn || '').toLowerCase().includes(søg) ||
+      (o.efternavn || '').toLowerCase().includes(søg) ||
+      (o.email || '').toLowerCase().includes(søg);
+    const matchStatus = status === 'alle' || o.betalings_status === status;
+    return matchSøg && matchStatus;
+  });
+  visOrdrer(filtreret);
+}
+
+function visDetaljer(ordre) {
+  document.getElementById('modal-titel').textContent = 'Ordre ' + (ordre.ordre_nr || '');
+  const produkter = Array.isArray(ordre.produkter)
+    ? ordre.produkter.map(p => `${p.name} x${p.qty} – ${p.price * p.qty} kr.`).join('<br>')
+    : '–';
+  document.getElementById('modal-indhold').innerHTML = `
+    <div class="modal-row"><span>Kunde</span><span>${(ordre.fornavn || '') + ' ' + (ordre.efternavn || '')}</span></div>
+    <div class="modal-row"><span>Email</span><span>${ordre.email || '–'}</span></div>
+    <div class="modal-row"><span>Telefon</span><span>${ordre.telefon || '–'}</span></div>
+    <div class="modal-row"><span>Adresse</span><span>${ordre.adresse || '–'}, ${ordre.postnr || ''} ${ordre.by || ''}</span></div>
+    <div class="modal-row"><span>Produkter</span><span style="text-align:right">${produkter}</span></div>
+    <div class="modal-row"><span>Levering</span><span>${ordre.leverings_metode || '–'} (${ordre.leverings_pris || 0} kr.)</span></div>
+    ${ordre.hilsen_valgt ? `<div class="modal-row"><span>Hilsen</span><span style="font-style:italic">"${ordre.hilsen_tekst || ''}"</span></div>` : ''}
+    <div class="modal-row"><span>Subtotal</span><span>${ordre.subtotal || 0} kr.</span></div>
+    <div class="modal-row"><span>Total</span><span style="font-weight:600;color:var(--rose-dark)">${ordre.total || 0} kr.</span></div>
+    <div class="modal-row"><span>Betalingsmetode</span><span>${ordre.betalings_metode || '–'}</span></div>
+    <div class="modal-row"><span>Status</span><span>${ordre.betalings_status || '–'}</span></div>
+    <div class="modal-row"><span>Dato</span><span>${ordre.oprettet_dato ? new Date(ordre.oprettet_dato).toLocaleString('da-DK') : '–'}</span></div>`;
+  document.getElementById('detalje-modal').classList.add('vis');
+}
+
+function lukModal() {
+  document.getElementById('detalje-modal').classList.remove('vis');
+}
+
+document.getElementById('detalje-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('detalje-modal')) lukModal();
+});
+</script>
+</body>
+</html>
