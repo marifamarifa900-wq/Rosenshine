@@ -92,12 +92,14 @@ function changeQty(id, delta) {
 }
 
 function updateSummary() {
+  const hilsenCheck = document.getElementById('kurv-hilsen-check');
+  const hilsen = hilsenCheck && hilsenCheck.textContent === '✓' ? 15 : 0;
   const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
   const shipping = subtotal > 0 ? 49 : 0;
   const el = id => document.getElementById(id);
-  if (el('subtotal')) el('subtotal').textContent = subtotal + ' kr.';
+  if (el('subtotal')) el('subtotal').textContent = (subtotal + hilsen) + ' kr.';
   if (el('shipping')) el('shipping').textContent = shipping + ' kr.';
-  if (el('total')) el('total').textContent = (subtotal + shipping) + ' kr.';
+  if (el('total')) el('total').textContent = (subtotal + hilsen + shipping) + ' kr.';
 }
 
 // ===== NYHEDSBREV =====
