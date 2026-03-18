@@ -65,9 +65,17 @@
     <div class="summary-row"><span>Levering</span><span id="shipping">0 kr.</span></div>
     <div class="summary-row total"><span>Total</span><span id="total">0 kr.</span></div>
 
-    <div class="personal-msg">
-      <label for="personal-note">💌 Personlig besked til gaven (valgfri)</label>
-      <textarea id="personal-note" placeholder="Skriv en kærlig besked til modtageren..."></textarea>
+    <div class="tilvalg-liste" style="margin-top:1rem">
+      <div onclick="toggleKurvHilsen(this)" style="display:flex;align-items:center;justify-content:space-between;padding:.85rem 1rem;border:1.5px solid #eee;border-radius:8px;cursor:pointer;transition:border-color .2s">
+        <div style="display:flex;align-items:center;gap:.75rem">
+          <div id="kurv-hilsen-check" style="width:20px;height:20px;border:1.5px solid #ccc;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.75rem;transition:all .2s;flex-shrink:0"></div>
+          <span>Personlig hilsen på kort</span>
+        </div>
+        <span style="font-size:.88rem;color:var(--tekst-lys);white-space:nowrap">15,00 kr.</span>
+      </div>
+      <div id="kurv-hilsen-felt" style="display:none;margin-top:.5rem">
+        <textarea id="kurv-hilsen-tekst" placeholder="Skriv din personlige hilsen her... ❤️" style="width:100%;height:80px;padding:.85rem 1rem;border:1.5px solid #e8d5d5;border-radius:10px;font-family:inherit;font-size:.95rem;background:var(--creme);outline:none;resize:none"></textarea>
+      </div>
     </div>
 
     <div class="coupon-row" style="margin-top:1rem">
@@ -106,6 +114,20 @@
 
 <script src="js/main.js"></script>
 <script>
+function toggleKurvHilsen(el) {
+  el.classList.toggle('valgt');
+  const valgt = el.classList.contains('valgt');
+  const check = document.getElementById('kurv-hilsen-check');
+  const felt = document.getElementById('kurv-hilsen-felt');
+  check.textContent = valgt ? '✓' : '';
+  check.style.background = valgt ? 'var(--rose-dark)' : '';
+  check.style.borderColor = valgt ? 'var(--rose-dark)' : '#ccc';
+  check.style.color = valgt ? 'white' : '';
+  el.style.borderColor = valgt ? 'var(--rose-dark)' : '#eee';
+  felt.style.display = valgt ? 'block' : 'none';
+  if (valgt) document.getElementById('kurv-hilsen-tekst').focus();
+}
+
 function checkout() {
   if (cart.length === 0) {
     showToast('Din kurv er tom 🌸');
