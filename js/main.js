@@ -54,9 +54,13 @@ function renderCart() {
   }
   container.innerHTML = cart.map(item => `
     <div class="cart-item">
-      <img src="${item.img}" alt="${item.name}">
+      <a href="produkt-detalje.html?from=kurv.html&id=${item.id}&img=${encodeURIComponent(item.img)}&navn=${encodeURIComponent(item.name)}&pris=${item.price}">
+        <img src="${item.img}" alt="${item.name}" style="cursor:pointer">
+      </a>
       <div class="cart-item-info">
-        <h3>${item.name}</h3>
+        <a href="produkt-detalje.html?from=kurv.html&id=${item.id}&img=${encodeURIComponent(item.img)}&navn=${encodeURIComponent(item.name)}&pris=${item.price}" style="color:inherit">
+          <h3>${item.name}</h3>
+        </a>
         <p class="desc">${item.price} kr. stk.</p>
         <div class="qty-control">
           <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
