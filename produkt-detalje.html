@@ -182,13 +182,13 @@
       <button class="gallery-arrow next" onclick="skiftBillede(1)">›</button>
     </div>
     <div class="thumbnails" id="thumbnails">
-      <div class="thumb active" onclick="vælgBillede(0)"><img src="css/blomst1.jpg" alt=""></div>
-      <div class="thumb" onclick="vælgBillede(1)"><img src="css/blomst2.jpg" alt=""></div>
-      <div class="thumb" onclick="vælgBillede(2)"><img src="css/blomst3.jpg" alt=""></div>
-      <div class="thumb" onclick="vælgBillede(3)"><img src="css/blomst4.jpg" alt=""></div>
-      <div class="thumb" onclick="vælgBillede(4)"><img src="css/blomst5.jpg" alt=""></div>
-      <div class="thumb" onclick="vælgBillede(5)"><img src="css/blomst6.jpg" alt=""></div>
-      <div class="thumb" onclick="vælgBillede(6)"><img src="css/blomst7.jpg" alt=""></div>
+      <div class="thumb active" onclick="vælgBillede(0)"><img id="thumb-0" src="" alt=""></div>
+      <div class="thumb" onclick="vælgBillede(1)"><img id="thumb-1" src="" alt=""></div>
+      <div class="thumb" onclick="vælgBillede(2)"><img id="thumb-2" src="" alt=""></div>
+      <div class="thumb" onclick="vælgBillede(3)"><img id="thumb-3" src="" alt=""></div>
+      <div class="thumb" onclick="vælgBillede(4)"><img id="thumb-4" src="" alt=""></div>
+      <div class="thumb" onclick="vælgBillede(5)"><img id="thumb-5" src="" alt=""></div>
+      <div class="thumb" onclick="vælgBillede(6)"><img id="thumb-6" src="" alt=""></div>
     </div>
   </div>
 
@@ -342,17 +342,12 @@
   // Sæt navn og billede
   document.getElementById('pd-navn').textContent = produktNavn;
   document.getElementById('main-img').src = produktImg;
-  document.querySelector('.thumb:first-child img').src = produktImg;
 
-  const billeder = [
-    { src: produktImg, label: 'Naturligvis' },
-    { src: 'css/blomst2.jpg', label: 'Pastel' },
-    { src: 'css/blomst3.jpg', label: 'Hvid' },
-    { src: 'css/blomst4.jpg', label: 'Romantisk' },
-    { src: 'css/blomst5.jpg', label: 'Jubilæum' },
-    { src: 'css/blomst6.jpg', label: 'Lyserød' },
-    { src: 'css/blomst7.jpg', label: 'Deluxe' },
-  ];
+  // Alle thumbnails bruger samme produktbillede
+  const billeder = Array(7).fill({ src: produktImg, label: produktNavn });
+  for (let i = 0; i < 7; i++) {
+    document.getElementById('thumb-' + i).src = produktImg;
+  }
   let aktivtBillede = 0;
   let basispris = produktPris;
   let størrelsesMult = 1;
