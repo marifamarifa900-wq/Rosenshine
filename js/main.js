@@ -19,6 +19,12 @@ function addToCart(id, name, price, img) {
   else cart.push({ id, name, price, img, qty: 1 });
   localStorage.setItem('cart', JSON.stringify(cart));
   updateCartCount();
+  // Loading animation
+  const spinner = document.getElementById('spinner');
+  if (spinner) {
+    spinner.classList.add('vis');
+    setTimeout(() => spinner.classList.remove('vis'), 600);
+  }
   showToast(`${name} tilføjet til kurven 🌹`);
 }
 
@@ -66,7 +72,10 @@ function renderCart() {
           <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
         </div>
       </div>
-      <div class="cart-item-price">${item.price * item.qty} kr.</div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.5rem">
+        <button class="remove-item-btn" onclick="fjernFraKurv('${item.id}')" title="Fjern">✕</button>
+        <div class="cart-item-price">${item.price * item.qty} kr.</div>
+      </div>
     </div>
   `}).join('');
   updateSummary();
@@ -159,3 +168,12 @@ function tilfoejMedAntal(btn, id, navn, img) {
     }
   });
 })();
+
+// ===== FJERN FRA KURV =====
+function fjernFraKurv(id) {
+  cart = cart.filter(i => i.id !== id);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartCount();
+  renderCart();
+  showToast('Produkt fjernet fra kurven');
+}
